@@ -39,12 +39,12 @@
                 const fragment = document.createDocumentFragment();
                 data.response.docs.forEach(article => {
                     const listitem =  document.createElement('li');
+                    listitem.addAttribute('class', 'article');
                     listitem.innerHTML = `
-                    <h2><a href=${article.web_url} style="text-decoration: underline; color: #2e3d49;">${article.headline.main}</a></h2>
+                    <h2><a href=${article.web_url}>${article.headline.main}</a></h2>
                     <p>${article.snippet}</p>
                     `
                     fragment.appendChild(listitem);
-                    listitem.style.border = "1px solid #2e3d49;";
                 })
                 const list = document.createElement('ul');
                 list.appendChild(fragment);
