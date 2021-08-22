@@ -31,26 +31,50 @@
         xhr.send();
 
         // Sending an ajax request to new york times
-        xhr1.open('GET', 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+searchedForText+'&api-key=cbFNI64D5QpKWcJPNXHGUFSjQziKUK9c');
-        xhr1.onload = () => {
-            const data = JSON.parse(xhr1.responseText);
+        // xhr1.open('GET', 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+searchedForText+'&api-key=cbFNI64D5QpKWcJPNXHGUFSjQziKUK9c');
+        // xhr1.onload = () => {
+        //     const data = JSON.parse(xhr1.responseText);
+        //     if (data.response.docs && data.response.docs.length > 1)
+        //     {
+        //         const fragment = document.createDocumentFragment();
+        //         data.response.docs.forEach(article => {
+        //             const listitem =  document.createElement('li');
+        //             listitem.setAttribute('class', 'article');
+        //             listitem.innerHTML = `
+        //             <h2><a href=${article.web_url}>${article.headline.main}</a></h2>
+        //             <p>${article.snippet}</p>
+        //             `
+        //             fragment.appendChild(listitem);
+        //         })
+        //         const list = document.createElement('ul');
+        //         list.appendChild(fragment);
+        //         responseContainer.appendChild(list)
+        //     }
+        // }
+        // xhr1.send();
+
+        // Making an AJAX call with JQuery
+        $.ajax({
+            url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+searchedForText+'&api-key=cbFNI64D5QpKWcJPNXHGUFSjQziKUK9c'
+        }).done(data => {
             if (data.response.docs && data.response.docs.length > 1)
             {
                 const fragment = document.createDocumentFragment();
                 data.response.docs.forEach(article => {
                     const listitem =  document.createElement('li');
+                    listitem.setAttribute('class', 'article');
                     listitem.innerHTML = `
-                    <h2><a href=${article.web_url} style="text-decoration: underline; color: #2e3d49;">${article.headline.main}</a></h2>
+                    <h2><a href=${article.web_url}>${article.headline.main}</a></h2>
                     <p>${article.snippet}</p>
                     `
                     fragment.appendChild(listitem);
-                    listitem.style.border = "1px solid #2e3d49;";
                 })
                 const list = document.createElement('ul');
                 list.appendChild(fragment);
                 responseContainer.appendChild(list)
             }
-        }
-        xhr1.send();
+        }).fail(()=> {
+            console.log('fialed!');
+        })
     });
 })();
